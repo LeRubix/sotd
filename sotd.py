@@ -15,6 +15,21 @@ CHANNEL_ID = ""
 
 
 
+@client.event
+async def on_command_error(ctx, error):
+    if isinstance(error, commands.CommandOnCooldown):
+        msg = f'**You are on Cooldown!**\nPlease try again in **{error.retry_after:,.0f}** seconds / **{error.retry_after / 60:,.0f}** minutes / **{error.retry_after / 3600:,.0f}** hours.'
+        await ctx.send(msg)
+    if isinstance(error, commands.CheckFailure):
+        await ctx.send("You do not have the role/permissions to use this command.")
+    if isinstance(error, commands.BotMissingPermissions):
+        await ctx.send("The bot doesn't have the permissions to use this command.")
+    else:
+        print('Ignoring exception in command {}:'.format(ctx.command), file=sys.stderr)
+        traceback.print_exception(type(error), error, error.__traceback__, file=sys.stderr)
+
+
+
 @client.command()
 @commands.cooldown(1,43200,commands.BucketType.user)
 async def sotd(ctx, link=None):
