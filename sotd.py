@@ -91,4 +91,4 @@ async def sotd(ctx, link=None):
             await ctx.message.delete()
             await errormsg.delete()
 
-client.run("BOT_TOKEN")
+client.run(BOT_TOKEN)
