@@ -38,8 +38,8 @@ async def sotd(ctx, link=None):
     if(link != None):
             msg2 = await sotdchannel.send(datetime.now().strftime(f"__(%a, %d/%m)__\n**{ctx.author.name}**'s Song of the Day:\n{link}"))
             await ctx.message.delete()
-            await msg2.add_reaction('<:Upvote:802500869773590548>')
-            await msg2.add_reaction('<:Downvote:802500955521810432>')
+            await msg2.add_reaction('👍')
+            await msg2.add_reaction('👎')
             return
     for activity in user.activities:
         if isinstance(activity, Spotify):
@@ -62,7 +62,7 @@ async def sotd(ctx, link=None):
                 await ctx.message.delete()
                 await asyncio.sleep(6)
                 await timeoutmsg.delete()
-                await ctx.command.reset_cooldown(ctx)
+                ctx.command.reset_cooldown(ctx)
                 return
             
             # if response is different than yes / y - return
@@ -76,6 +76,7 @@ async def sotd(ctx, link=None):
                 await cancelmsg.delete()
                 return
 
+
             msg = await sotdchannel.send(embed=em)
             await confirm_msg.delete()
             await response.delete()
@@ -86,9 +87,10 @@ async def sotd(ctx, link=None):
     else:
         if(link == None):
             errormsg = await ctx.reply("You're not listening to spotify right now. If you are, it's either a local file or discord isn't picking it up. Double check and try again or use a link instead. (?sotd <link>)")
-            await ctx.command.reset_cooldown(ctx)
+            ctx.command.reset_cooldown(ctx)
             await asyncio.sleep(6)
             await ctx.message.delete()
             await errormsg.delete()
+            
 
 client.run(BOT_TOKEN)
